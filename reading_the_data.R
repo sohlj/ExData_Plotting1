@@ -11,12 +11,14 @@ raw <- read.table(file=file, header = TRUE, sep = ";", dec = ".",
 #raw[['Date']] <- as.POSIXct(raw[['Date']],"%d/%m/%Y")
 raw$Date <- as.Date(raw$Date,format = "%d/%m/%Y")
 
-#subset between two dates, inclusive
+#create new "data" by subseting between two dates
 data <- raw[raw$Date >= "2007-2-1" & raw$Date<= "2007-2-2", ]
+
+#remove raw data to save memory
 rm(raw)
 
 #install.packages("Rcpp") & ("dplyr")
-#Add new column date_time
+#Add new column date_time to "data"
 library(dplyr)
 data <- mutate(data, 
                date_time = as.POSIXct(paste(data$Date, data$Time, sep=" "), 
